@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Número Premiado</title>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <main class="container">
+        <div class="logo-wrapper">
+            <svg class="brand-logo" width="440" height="104" viewBox="0 0 440 104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo Número Premiado">
+                <defs>
+                    <linearGradient id="neonEmerald" x1="0" y1="0" x2="440" y2="104" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#00FF66"/>
+                        <stop offset="55%" stop-color="#00E676"/>
+                        <stop offset="100%" stop-color="#7CFFAB"/>
+                    </linearGradient>
+                    <filter id="neonGlow" x="-15%" y="-15%" width="130%" height="130%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Moldura principal -->
+                <rect x="3" y="3" width="434" height="98" rx="22" fill="#060D08" stroke="url(#neonEmerald)" stroke-width="2.5"/>
+
+                <!-- Badge da bola premiada à esquerda (sem número) -->
+                <circle cx="56" cy="52" r="27" fill="#09180E" stroke="url(#neonEmerald)" stroke-width="2.5" filter="url(#neonGlow)"/>
+                <circle cx="48" cy="43" r="6" fill="rgba(124, 255, 171, 0.28)"/>
+                <polygon points="56,37 60.2,45.8 70,47.2 62.8,54 64.6,63.7 56,59 47.4,63.7 49.2,54 42,47.2 51.8,45.8" fill="#00FF66"/>
+
+                <!-- Nome da plataforma -->
+                <text x="262" y="45" dominant-baseline="middle" text-anchor="middle" fill="url(#neonEmerald)" font-family="Orbitron, Roboto, sans-serif" font-weight="900" font-size="23" letter-spacing="2">NÚMERO PREMIADO</text>
+                <line x1="102" y1="64" x2="420" y2="64" stroke="rgba(0, 255, 102, 0.25)" stroke-width="1.2"/>
+                <text x="262" y="78" dominant-baseline="middle" text-anchor="middle" fill="#7DFFB0" font-family="Roboto, sans-serif" font-weight="700" font-size="11" letter-spacing="3.5">SORTEIO INSTANTÂNEO</text>
+            </svg>
+        </div>
+
+        <h1 class="main-title">Escolha seus números</h1>
+
+        <div class="quick-presets">
+            <button type="button" class="preset-btn" onclick="setRange(1, 10)">1 - 10</button>
+            <button type="button" class="preset-btn" onclick="setRange(1, 50)">1 - 50</button>
+            <button type="button" class="preset-btn" onclick="setRange(1, 60)">1 - 60</button>
+            <button type="button" class="preset-btn" onclick="setRange(1, 100)">1 - 100</button>
+        </div>
+
+        <div class="inputs-container">
+            <div class="input-group">
+                <label for="min">Mínimo</label>
+                <input placeholder="entre" class="input-min" type="number" id="min">
+            </div>
+            <div class="input-group">
+                <label for="max">Máximo</label>
+                <input placeholder="e" class="input-max" type="number" id="max">
+            </div>
+        </div>
+
+        <div class="extra-controls">
+            <div class="quantity-group">
+                <label for="quantity">Quantidade:</label>
+                <select id="quantity">
+                    <option value="1" selected>1 número</option>
+                    <option value="2">2 números</option>
+                    <option value="3">3 números</option>
+                    <option value="4">4 números</option>
+                    <option value="5">5 números</option>
+                    <option value="6">6 números</option>
+                    <option value="10">10 números</option>
+                </select>
+            </div>
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="no-repeat" checked>
+                <span>Não repetir números</span>
+            </label>
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="sound-enabled" checked>
+                <span>Som</span>
+            </label>
+        </div>
+
+        <p id="error-message" class="error-msg"></p>
+
+        <button id="draw-button" onclick="generateNumber()">Sortear</button>
+        <p class="shortcut-hint">Dica: pressione <kbd>ENTER</kbd> para sortear</p>
+
+        <div id="result-box" class="result-box hidden">
+            <div class="result-top">
+                <span id="result-label">Número sorteado:</span>
+                <button type="button" id="copy-btn" class="btn-copy" onclick="copyResult()">Copiar</button>
+            </div>
+            <div id="result-display" class="result-display">0</div>
+        </div>
+
+        <div id="history-container" class="history-container hidden">
+            <div class="history-header">
+                <h3>Histórico (<span id="history-count">0</span>)</h3>
+                <button type="button" onclick="clearHistory()" class="btn-clear">Limpar</button>
+            </div>
+            <ul id="history-list" class="history-list"></ul>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Número premiado © 2026 — Plataforma by <a href="https://github.com/edisonjuniordev" target="_blank" rel="noopener noreferrer">Edison Junior</a></p>
+    </footer>
+
+    <script src="./scripts.js"></script>
+</body>
+</html>
